@@ -27,7 +27,7 @@ app.include_router(like.router)
 # Root endpoint
 @app.get("/")
 def root():
-    return {"message": "Welcome to FastAPI!"}
+    return {"message": "Welcome to FastAPI Page! "}
 
 # Startup event to check DB and create tables
 @app.on_event("startup")
