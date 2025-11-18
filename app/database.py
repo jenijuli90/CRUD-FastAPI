@@ -17,8 +17,8 @@ if not DATABASE_URL:
 # Create SQLAlchemy engine
 engine = create_engine(
     DATABASE_URL,
-    pool_pre_ping=True,  # Check connection before using
-    connect_args={"timeout": 5}  # Optional: timeout for DB connection
+    pool_pre_ping=True  # Check connection before using
+   
 )
 
 # Session factory
