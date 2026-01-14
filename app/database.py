@@ -11,6 +11,8 @@ from .config import settings
 
 DATABASE_URL = settings.database_connection
 
+print (f"DATABASE_URL")
+
 if not DATABASE_URL:
     raise Exception("Database connection string not found in .env file")
 
