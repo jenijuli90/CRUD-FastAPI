@@ -1,0 +1,12 @@
+name: Build and Deploy code
+# Trigger the workflow on every push/pull_request
+on: [push,pull_request]
+jobs: 
+  build-test-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Get the code
+      -name: checkout code
+      uses: actions/checkout@v2
+      -name: say hi
+      run: echo "hello"
