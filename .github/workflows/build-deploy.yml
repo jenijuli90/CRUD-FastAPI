@@ -8,5 +8,19 @@ jobs:
       # Step 1: Get the code
       - name: checkout code
         uses: actions/checkout@v3
-      - name: say hi
-        run: echo "hello"
+      
+      # Step 2: Install Python dependencies
+      - name: set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+      - name: update pip
+        run: python -m pip install --upgrade pip
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+       # Step 3: Run tests,| to run multiple install
+      - name : Run tests
+        run: |
+          pip install pytest
+          pytest
