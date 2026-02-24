@@ -10,7 +10,7 @@ import pytest
 
 
 
-DATABASE_URL='postgresql://postgres:jenjul%4090@localhost:5432/fastapi_test'
+DATABASE_URL='postgresql://postgres:password123@localhost:5432/fastapi_test'
 
 
 
