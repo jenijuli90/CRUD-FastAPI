@@ -3,6 +3,12 @@ name: Build and Deploy code
 on: [push,pull_request]
 jobs: 
   build-test-deploy:
+    env:
+      DATABASE_CONNECTION=postgresql://postgres:jenjul%4090@db:5432/postgres
+      SECRET_KEY=4e0cf17e107d0ffda30458a96d6e4de3f9b13d526785e7471526dfe877c59419
+      ALGORITHM=HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES=30
+
     runs-on: ubuntu-latest
     steps:
       # Step 1: Get the code
@@ -19,8 +25,8 @@ jobs:
       - name: Install Dependencies
         run: pip install -r requirements.txt
 
-       # Step 3: Run tests,| to run multiple install
-      - name : Run tests
+      # Step 3: Run tests,| to run multiple install
+      - name: Run tests
         run: |
           pip install pytest
           pytest
