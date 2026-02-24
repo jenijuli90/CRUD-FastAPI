@@ -1,13 +1,16 @@
 name: Build and Deploy code
 # Trigger the workflow on every push/pull_request
-on: [push,pull_request]
+on: [push,pull_request] 
+
 jobs: 
   build-test-deploy:
+    environment:
+      name: testing
     env:
-      DATABASE_CONNECTION: postgresql://postgres:jenjul%4090@db:5432/postgres
-      SECRET_KEY: 4e0cf17e107d0ffda30458a96d6e4de3f9b13d526785e7471526dfe877c59419
-      ALGORITHM: HS256
-      ACCESS_TOKEN_EXPIRE_MINUTES: 30
+      DATABASE_CONNECTION: ${{secrets.DATABASE_CONNECTION}}
+      SECRET_KEY: ${{secrets.SECRET_KEY}}
+      ALGORITHM: ${{secrets.ALGORITHM}}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${{secrets.ACCESS_TOKEN_EXPIRE_MINUTES}}
 
     runs-on: ubuntu-latest
     steps:
