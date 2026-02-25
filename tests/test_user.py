@@ -15,7 +15,6 @@ def test_user(client):
 
 
 
-
 def test_root(client):
     response = client.get('/')
     print(response.json()) 
