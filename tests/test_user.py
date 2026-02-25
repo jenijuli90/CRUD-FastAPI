@@ -6,7 +6,7 @@ import pytest
 
 @pytest.fixture()
 def test_user(client):
-     user_data = {"username":"test","email":"test1@gmail.com","password":"password!123"}
+     user_data = {"username":"test","email":"test1@gmail.com","password":"password@123"}
      response = client.post('/users', json=user_data)
      new_user = response.json()
      new_user['password'] =  user_data['password']
