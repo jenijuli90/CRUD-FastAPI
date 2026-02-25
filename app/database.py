@@ -9,14 +9,14 @@ from .config import settings
 
 
 
-DATABASE_URL = settings.database_connection
+DATABASE_URL = f'postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port/{settings.database_name}}'
 
 print (f"DATABASE_URL")
 
 if not DATABASE_URL:
     raise Exception("Database connection string not found in .env file")
 
-# Create SQLAlchemy engine
+# Create SQLAlchemy engine 
 engine = create_engine(
     DATABASE_URL,
     pool_pre_ping=True  # Check connection before using
