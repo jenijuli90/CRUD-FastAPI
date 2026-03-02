@@ -14,6 +14,9 @@ class UserBase(BaseModel):
     username : str
     email : EmailStr
 
+    class Config:
+        orm_mode = True
+
 # Request model for creating a post (no id)
 class CreatePost(PostBase):
     pass
@@ -27,7 +30,10 @@ class VoteBase(BaseModel):
 class PostResponse(PostBase):
     id: int  # database-generated id
     user_id: int
-    user_details : UserBase
+    user : UserBase
+
+    class Config:
+        orm_mode = True
 
 
 # Request model for creating User
