@@ -88,7 +88,7 @@ jobs:
 
   Deploy:
     runs-on: ubuntu-latest
-    needs: [build-test]
+    needs: [build-test] #deploy jib runs after build-test is completed
     steps:
       - name: deploying app
         run: echo "going to deploy"

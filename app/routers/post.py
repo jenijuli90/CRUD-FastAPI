@@ -8,6 +8,7 @@ from ..database import get_db
 from fastapi import Depends, FastAPI, Response, status, HTTPException, APIRouter
 from sqlalchemy.exc import SQLAlchemyError
 from .decorator import handle_error
+import traceback
 
 router = APIRouter()
  
@@ -77,9 +78,11 @@ def create_post(post: schemas.CreatePost, db: Session = Depends(get_db),current_
         return new_post
     except SQLAlchemyError as e:
         db.rollback()
-        raise HTTPException(status_code=500, detail="Internal server error. Please try again later.")
+        traceback.print_exc()  # prints full SQLAlchemy error to logs
+        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
     except Exception as e:
-        raise HTTPException(status_code=500, detail="Internal server error. Please try again later.")
+        traceback.print_exc()  # prints full error to logs
+        raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
 
 
 # ---------------------- Delete a post ----------------------

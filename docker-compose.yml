@@ -4,8 +4,8 @@ services:
         image: postgres
         environment:
             POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: jenjul@90
-            POSTGRES_DB: postgres
+            POSTGRES_PASSWORD: jenjul
+            POSTGRES_DB: fastapi
         ports:
             - 5432:5432
 
