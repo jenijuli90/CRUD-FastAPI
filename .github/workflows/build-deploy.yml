@@ -102,6 +102,6 @@ jobs:
             -H "Accept: application/json" \
             -H "Authorization: Bearer $RENDER_API_KEY" \
             -H "Content-Type: application/json" \
-            -d '{"dockerImage":"'"$DOCKER_USERNAME"'/fastapi:'"$IMAGE_SHA"'","force":true}' \
+            -d '{"dockerImage":"'"$DOCKER_HUB_USERNAME"'/fastapi:'"$IMAGE_SHA"'","force":true}' \
             https://api.render.com/v1/services/srv-d6j3sqhaae7s739ce4ug
 
