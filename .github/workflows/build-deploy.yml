@@ -123,13 +123,13 @@ jobs:
         env:
           RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
           IMAGE_SHA: ${{ github.sha }}
-          DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          MY_DOCKER_USER: ${{ secrets.DOCKER_HUB_USERNAME }}
         run: |
           echo "Waiting for Docker Hub to propagate the image..."
           sleep 30
 
-          echo "=== IMAGE BEING DEPLOYED ==="
-          echo "$DOCKER_USERNAME/fastapi:$IMAGE_SHA"
+          echo "Username: $MY_DOCKER_USER"    # ← verify it prints
+          echo "SHA: $IMAGE_SHA"
 
           echo "=== STEP 1: UPDATING IMAGE CONFIG ==="
           PATCH_RESPONSE=$(curl -s -X PATCH \
