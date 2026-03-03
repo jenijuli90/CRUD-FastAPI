@@ -106,8 +106,8 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}  # Specifies the Buildx builder to use
           push: true              # Push image to registry (Docker Hub)
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/fastapi:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/fastapi:${{ github.sha }}  
+            ${{secrets.DOCKER_HUB_USERNAME}}/fastapi:latest
+            ${{secrets.DOCKER_HUB_USERNAME}}/fastapi:${{ github.sha }}  
           cache-from: type=local,src=/tmp/.buildx-cache  # Use cache from previous builds
           cache-to: type=local,dest=/tmp/.buildx-cache    # Save build cache for next run
 
@@ -121,9 +121,9 @@ jobs:
     steps:
       - name: Deploy new image to Render
         env:
-          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          RENDER_API_KEY: ${{secrets.RENDER_API_KEY}}
           IMAGE_SHA: ${{ github.sha }}
-          MY_DOCKER_USER: ${{ secrets.DOCKER_HUB_USERNAME }}
+          MY_DOCKER_USER: ${{secrets.DOCKER_HUB_USERNAME}}
         run: |
           echo "Waiting for Docker Hub to propagate the image..."
           sleep 30
