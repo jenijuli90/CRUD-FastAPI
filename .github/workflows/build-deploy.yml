@@ -1,3 +1,32 @@
+# ------------------------------------------------
+# FLOW:
+# push code to GitHub
+#        ↓
+#   build-test job
+#        ↓
+#   ┌────────────────────────┐
+#   │ 1. checkout code       │
+#   │ 2. setup python        │
+#   │ 3. install deps        │
+#   │ 4. run pytest          │  ← if tests fail, stops here
+#   │ 5. login to docker hub │
+#   │ 6. build & push image  │
+#   │ 7. show digest         │
+#   └────────────────────────┘
+#        ↓ (only if all steps pass)
+#    deploy job
+#        ↓
+#   ┌────────────────────────┐
+#   │ 1. wait 20 seconds     │  ← let Docker Hub propagate
+#   │ 2. PATCH → update img  │  ← tell Render which image
+#   │ 3. POST → trigger deploy│ ← tell Render to deploy it
+#   └────────────────────────┘
+#        ↓
+#   Render pulls image from Docker Hub
+#        ↓
+#   App is live!
+# ------------------------------------------------
+
 name: Build and Deploy code
 # Trigger the workflow on every push/pull_request
 on: [push,pull_request] 
@@ -90,7 +119,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-test
     steps:
-      - name: Trigger Render deploy with SHA
+      - name: Deploy new image to Render
         env:
           RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
           IMAGE_SHA: ${{ github.sha }}
@@ -98,10 +127,21 @@ jobs:
         run: |
           echo "Waiting for Docker Hub to propagate the image..."
           sleep 20
+
+          echo "Updating Render service with new image..."
           curl -X PATCH \
             -H "Accept: application/json" \
             -H "Authorization: Bearer $RENDER_API_KEY" \
             -H "Content-Type: application/json" \
-            -d '{"dockerImage":"'"$DOCKER_HUB_USERNAME"'/fastapi:'"$IMAGE_SHA"'","force":true}' \
+            -d '{"dockerImage":"'"$DOCKER_USERNAME"'/fastapi:'"$IMAGE_SHA"'","force":true}' \
             https://api.render.com/v1/services/srv-d6j3sqhaae7s739ce4ug
+
+          echo "Triggering deployment..."
+          curl -s -X POST \
+            -H "Accept: application/json" \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -H "Content-Type: application/json" \
+            https://api.render.com/v1/services/srv-d6j3sqhaae7s739ce4ug/deploys
+
+          echo "Deployment triggered successfully!"
 
