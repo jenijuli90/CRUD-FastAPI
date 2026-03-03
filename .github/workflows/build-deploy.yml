@@ -126,22 +126,31 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
         run: |
           echo "Waiting for Docker Hub to propagate the image..."
-          sleep 20
+          sleep 30
 
-          echo "Updating Render service with new image..."
-          curl -X PATCH \
+          echo "=== IMAGE BEING DEPLOYED ==="
+          echo "$DOCKER_USERNAME/fastapi:$IMAGE_SHA"
+
+          echo "=== STEP 1: UPDATING IMAGE CONFIG ==="
+          PATCH_RESPONSE=$(curl -s -X PATCH \
             -H "Accept: application/json" \
             -H "Authorization: Bearer $RENDER_API_KEY" \
             -H "Content-Type: application/json" \
-            -d '{"dockerImage":"'"$DOCKER_USERNAME"'/fastapi:'"$IMAGE_SHA"'","force":true}' \
-            https://api.render.com/v1/services/srv-d6j3sqhaae7s739ce4ug
+            -d '{"dockerImage":"'"$DOCKER_USERNAME"'/fastapi:'"$IMAGE_SHA"'"}' \
+            https://api.render.com/v1/services/srv-d6j3sqhaae7s739ce4ug)
+          echo "PATCH Response: $PATCH_RESPONSE"    # ← shows what Render replied
 
-          echo "Triggering deployment..."
-          curl -s -X POST \
+          echo "Waiting for config to save..."
+          sleep 10                                   # ← give Render time to save config
+
+          echo "=== STEP 2: TRIGGERING DEPLOY ==="
+          DEPLOY_RESPONSE=$(curl -s -X POST \
             -H "Accept: application/json" \
             -H "Authorization: Bearer $RENDER_API_KEY" \
             -H "Content-Type: application/json" \
-            https://api.render.com/v1/services/srv-d6j3sqhaae7s739ce4ug/deploys
+            https://api.render.com/v1/services/srv-d6j3sqhaae7s739ce4ug/deploys)
+          echo "DEPLOY Response: $DEPLOY_RESPONSE"  # ← shows what Render replied
 
-          echo "Deployment triggered successfully!"
+          echo "=== DONE ==="
+
 
