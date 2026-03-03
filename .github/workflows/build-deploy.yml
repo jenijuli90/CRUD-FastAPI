@@ -116,6 +116,9 @@ jobs:
         run: echo ${{ steps.docker_build.outputs.digest }} #returns the SHA256 digest of the pushed image.
 
   deploy:
+    environment:
+      name: testing
+      
     runs-on: ubuntu-latest
     needs: build-test
     steps:
@@ -130,6 +133,7 @@ jobs:
 
           echo "Username: $MY_DOCKER_USER"    # ← verify it prints
           echo "SHA: $IMAGE_SHA"
+          echo "render: $RENDER_API_KEY"
 
           echo "=== STEP 1: UPDATING IMAGE CONFIG ==="
           PATCH_RESPONSE=$(curl -s -X PATCH \
