@@ -96,6 +96,8 @@ jobs:
           IMAGE_SHA: ${{ github.sha }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
         run: |
+          echo "Waiting for Docker Hub to propagate the image..."
+          sleep 20
           curl -X PATCH \
             -H "Accept: application/json" \
             -H "Authorization: Bearer $RENDER_API_KEY" \
