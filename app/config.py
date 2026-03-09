@@ -1,4 +1,5 @@
 from pydantic_settings import BaseSettings,SettingsConfigDict
+import sentry_sdk
 
 class Settings(BaseSettings):
     database_port: str
@@ -6,7 +7,8 @@ class Settings(BaseSettings):
     database_name: str
     database_username: str
     database_hostname: str
-    secret_key : str
+    secret_key: str
+    sentry_dsn: str
     access_token_expire_minutes : int
     algorithm : str
 

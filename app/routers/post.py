@@ -53,9 +53,9 @@ def get_post_by_id(post_id: int, db: Session = Depends(get_db),current_user: int
 
         vote_count_subquery = db.query(models.Vote.post_id,func.count(models.Vote.user_id).label("votes")).group_by(models.Vote.post_id).filter(models.Vote.post_id == post_id).subquery()
 
-        post = db.query(models.Post,func.coalesce(vote_count_subquery.c.votes,0).label("votes")).outerjoin(vote_count_subquery,vote_count_subquery.c.post_id == models.Post.id).first()
+        post = db.query(models.Post,func.coalesce(vote_count_subquery.c.votes,0).label("votes")).outerjoin(vote_count_subquery,vote_count_subquery.c.post_id == models.Post.id).filter(models.Post.id == post_id).first()
 
-        print(post)
+
 
         if not post:
             raise HTTPException(
@@ -115,8 +115,14 @@ def update_post(post_id: int, updated_post: schemas.CreatePost, db: Session = De
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Post with ID {post_id} not found"
             )
+        
+        if post.user_id != current_user.id:
+            raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not authorized to perform this action"
+        )
 
-        post_query.update(updated_post.dict(), synchronize_session=False)
+        post_query.update(updated_post.dict(), synchronize_session=False)  #Don't care, leave memory as is if False
         db.commit()
 
         return post_query.first() 

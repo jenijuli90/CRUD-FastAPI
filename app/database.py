@@ -11,7 +11,7 @@ from .config import settings
 
 DATABASE_URL = f'postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}'
 
-print (f"DATABASE_URL")
+
 
 if not DATABASE_URL:
     raise Exception("Database connection string not found in .env file")
@@ -31,11 +31,8 @@ Base = declarative_base()
 
 # Dependency to get DB session
 def get_db():
-    try:
-        db = SessionLocal()
-        yield db
-    except SQLAlchemyError as e:
-        print("DB session creation failed:", e)
-        raise HTTPException(status_code=500, detail="Database connection failed")
+    db = SessionLocal()
+    try:      
+        yield db   
     finally:
         db.close()

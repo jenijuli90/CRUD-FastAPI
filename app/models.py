@@ -32,6 +32,7 @@ class Post(Base):
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
 
     user = relationship("User", back_populates="posts")
+    votes = relationship("Vote", back_populates="post")
 
 
 class Vote(Base):
@@ -42,4 +43,4 @@ class Vote(Base):
     created_at = Column(DateTime, server_default=func.now(), nullable=False)
 
     user = relationship("User", back_populates="votes")
-    post = relationship("Post")
+    post = relationship("Post", back_populates="votes")

@@ -1,5 +1,4 @@
 from datetime import datetime
-from re import I
 from typing import Annotated, Optional
 from pydantic import BaseModel,EmailStr, conint
 
@@ -61,7 +60,7 @@ class VoteCreate(BaseModel):
     dir : conint(le =1)
 
 class PostVote(BaseModel):
-    Post :  PostResponse
+    post :  PostResponse
     votes : int
 
    
