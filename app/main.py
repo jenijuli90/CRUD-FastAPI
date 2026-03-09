@@ -58,7 +58,7 @@ app.include_router(like.router)
 # Root endpoint
 @app.get("/")
 def root():
-    return {"message": "Welcome to FastAPI Updated Page.App is Live.Error Handling added!!!!! "}
+    return {"message": "Welcome to FastAPI Updated Page.App is Live.Error Handling!!!!! "}
 
 @app.get("/test-sentry")
 def test_sentry():
