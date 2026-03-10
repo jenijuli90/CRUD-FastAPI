@@ -63,4 +63,8 @@ class PostVote(BaseModel):
     post :  PostResponse
     votes : int
 
+    class Config:
+        orm_mode = True
+
+
    
