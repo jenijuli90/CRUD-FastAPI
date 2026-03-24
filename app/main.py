@@ -2,7 +2,7 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from .routers import user, post, auth,like
+from .routers import user, post, auth,like,vote
 from .database import engine, Base
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import text
@@ -53,6 +53,7 @@ app.include_router(user.router, prefix="/users", tags=["User"])
 app.include_router(post.router, prefix="/posts", tags=["Post"])
 app.include_router(auth.router, tags=["Auth"])
 app.include_router(like.router)
+
 
 
 # Root endpoint

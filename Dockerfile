@@ -14,4 +14,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Command to run Uvicorn
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+## sh -c explained
+#sh          = shell program (like terminal)
+#-c          = "run the following string as a command"
+#"..."       = the actual commands to run
+CMD ["sh", "-c", "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000"]
