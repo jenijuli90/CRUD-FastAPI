@@ -11,7 +11,7 @@ from alembic import context
 # access to the values within the .ini file in use.
 config = context.config
 # Escape % for passwords containing special chars
-url = settings.DATABASE_URL.replace('%', '%%')#to avoid ValueError: invalid interpolation esacping the %
+url = DATABASE_URL.replace('%', '%%')#to avoid ValueError: invalid interpolation esacping the %
 config.set_main_option("sqlalchemy.url", url)
 #config.set_main_option("sqlalchemy.url",settings.database_connection)#This will override values in alembic.ini for sqlalchemy.url
 
