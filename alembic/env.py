@@ -4,14 +4,14 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from app.models import Base
 from app.config import settings
-
+from app.database import DATABASE_URL
 from alembic import context
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 # Escape % for passwords containing special chars
-url = settings.database_connection.replace('%', '%%')#to avoid ValueError: invalid interpolation esacping the %
+url = settings.DATABASE_URL.replace('%', '%%')#to avoid ValueError: invalid interpolation esacping the %
 config.set_main_option("sqlalchemy.url", url)
 #config.set_main_option("sqlalchemy.url",settings.database_connection)#This will override values in alembic.ini for sqlalchemy.url
 
