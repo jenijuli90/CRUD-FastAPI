@@ -79,9 +79,9 @@ jobs:
       - name: Install Dependencies
         run: pip install -r requirements.txt
 
-      # Alembic
-      - name: Run database migrations
-        run: alembic upgrade head
+      # # Alembic
+      # - name: Run database migrations
+      #   run: alembic upgrade head
 
       # Step 3: Run tests,| to run multiple install
       - name: Run tests
