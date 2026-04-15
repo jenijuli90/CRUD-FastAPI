@@ -2,7 +2,7 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from .routers import user, post, auth,like,vote
+from .routers import user, post, auth,like
 from .database import engine, Base
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import text
